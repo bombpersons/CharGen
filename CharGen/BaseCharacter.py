@@ -27,21 +27,41 @@ class BaseCharacter:
 
         self.charName = name
 
-    def str(self, character):
+    def str(self, character, total):
         return self.abilityScores.str
-    def dex(self, character):
+    def dex(self, character, total):
         return self.abilityScores.dex
-    def con(self, character):
+    def con(self, character, total):
         return self.abilityScores.con
-    def int(self, character):
+    def int(self, character, total):
         return self.abilityScores.int
-    def wis(self, character):
+    def wis(self, character, total):
         return self.abilityScores.wis
-    def cha(self, character):
+    def cha(self, character, total):
         return self.abilityScores.cha
 
-    def name(self, character):
+    def name(self, character, total):
         return [self.charName]
 
-    def init(self, character):
+    def init(self, character, total):
         return getModifier(character.func("dex"))
+
+    def hpExtra(self, character, total):
+        return total + character.func("lvl") * (getModifier(character.func("con")))
+
+    def fortSave(self, character, total):
+        return getModifier(character.func("con"))
+    def refSave(self, character, total):
+        return getModifier(character.func("dex"))
+    def willSave(self, character, total):
+        return getModifier(character.func("wis"))
+
+    def CMB(self, character, total):
+        return character.func("BAB") + \
+               getModifier(character.func("str")) + \
+               getSizeModifier(character.func("size"))
+    def CMD(self, character, total):
+        return 10 + character.func("BAB") + \
+               getModifier(character.func("str")) + \
+               getModifier(character.func("dex")) + \
+               getSizeModifier(character.func("size"))

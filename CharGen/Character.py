@@ -9,10 +9,16 @@ class Size(Enum):
     MEDIUM=2
 
 def speedFromSize(size):
-    if size == SMALL:
+    if size == Size.SMALL:
         return 20
-    elif size == MEDIUM:
+    elif size == Size.MEDIUM:
         return 30
+
+def getSizeModifier(size):
+    if size == Size.SMALL:
+        return 1
+    elif size == Size.MEDIUM:
+        return 0
 
 # Vision for characters.
 class Vision(Enum):
@@ -36,9 +42,29 @@ class Character:
             "int" : 0,
             "wis" : 0,
             "cha" : 0,
+
+            "size" : Size.MEDIUM,
+
             "name" : [],
             "vision" : [],
-            "init" : 0
+
+            "init" : 0,
+
+            "hpExtra" : 0,
+            "hd" : [],
+
+            "lvl" : 0,
+
+            "fortSave" : 0,
+            "refSave" : 0,
+            "willSave" : 0,
+
+            "BAB" : 0,
+            "CMB" : 0,
+            "CMD" : 0,
+
+            "melee" : [],
+            "ranged" : [],
         }
 
     def apply(self, template):
@@ -47,22 +73,13 @@ class Character:
     def func(self, funcName):
         total = self.defaults[funcName]
         for t in self.templates:
-            f = getattr(t, funcName, self.defaults[funcName])
+            f = getattr(t, funcName, None)
             if f:
-                total += f(self)
+                total = f(self, total)
         return total
 
     def __str__(self):
-        s = str(self.func("name")) + "\n"
-        s += "Ability Scores: "
-        s += "Str (" + str(self.func("str")) + "), "
-        s += "Dex (" + str(self.func("dex")) + "), "
-        s += "Con (" + str(self.func("con")) + "), "
-        s += "Int (" + str(self.func("int")) + "), "
-        s += "Wis (" + str(self.func("wis")) + "), "
-        s += "Cha (" + str(self.func("cha")) + ")\n"
-
-        s += "Vision: " + str(self.func("vision")) + "\n"
-
-        s += "Init " + str(self.func("init"))
+        s = "";
+        for key in self.defaults:
+            s += key + ": " + str(self.func(key)) + "\n"
         return s

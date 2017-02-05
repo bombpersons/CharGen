@@ -4,11 +4,14 @@ class Orc:
     def __init__(self):
         pass
 
-    def str(self, character):
-        return 4
+    def size(self, character, total):
+        return Size.MEDIUM
 
-    def name(self, character):
-        return ["Orc"]
+    def str(self, character, total):
+        return total + 4
 
-    def vision(self, character):
-        return [Vision.NORMAL, Vision.DARK]
+    def name(self, character, total):
+        return total + ["Orc"]
+
+    def vision(self, character, total):
+        return total + [Vision.NORMAL, Vision.DARK]
