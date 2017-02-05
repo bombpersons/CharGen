@@ -20,6 +20,12 @@ def getSizeModifier(size):
     elif size == Size.MEDIUM:
         return 0
 
+def getSizeString(size):
+    if size == Size.SMALL:
+        return "Small"
+    elif size == Size.MEDIUM:
+        return "Medium"
+
 # Vision for characters.
 class Vision(Enum):
     NORMAL=1
@@ -29,6 +35,12 @@ class Vision(Enum):
 def getModifier(score):
     normalised = score - 10
     return math.floor(normalised / 2)
+
+# Sex of characeters.
+class Sex(Enum):
+    MALE=1,
+    FEMALE=2,
+    NOT_APPLICABLE=3
 
 # Full character is simply a list of templates to apply upon each other.
 class Character:
@@ -43,7 +55,10 @@ class Character:
             "wis" : 0,
             "cha" : 0,
 
+            "sex" : Sex.MALE,
+            "type" : "Humanoid",
             "size" : Size.MEDIUM,
+            "speed" : 0,
 
             "name" : [],
             "vision" : [],

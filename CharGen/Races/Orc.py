@@ -7,6 +7,9 @@ class Orc:
     def size(self, character, total):
         return Size.MEDIUM
 
+    def speed(self, character, total):
+        return 30
+
     def str(self, character, total):
         return total + 4
 
