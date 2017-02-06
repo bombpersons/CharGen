@@ -42,6 +42,34 @@ class Sex(Enum):
     FEMALE=2,
     NOT_APPLICABLE=3
 
+# Functions for dealing with HD
+def getAverageHP(character):
+    hd = character.func("hd");
+    hpExtra = character.func("hpExtra")
+
+    hdAverage = hpExtra
+    for i in hd:
+        hdAverage += (i[0] * (i[1] / 2))
+    return hdAverage
+
+def getHDString(character):
+    hd = character.func("hd");
+    hpExtra = character.func("hpExtra")
+
+    s = ""
+    if len(hd) == 0:
+        s = str(hpExtra)
+    else:
+        for i in range(0, len(hd)):
+            hdItem = hd[i]
+            s += str(hdItem[0]) + "d" + str(hdItem[1])
+            if i != len(hd) - 1 or hpExtra > 0:
+                s += " + "
+            elif hpExtra < 0:
+                s+= " - "
+        s += "" if hpExtra == 0 else str(abs(hpExtra))
+    return s
+
 # Full character is simply a list of templates to apply upon each other.
 class Character:
     def __init__(self):

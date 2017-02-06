@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     character.apply(BaseCharacter("Bob"))
     character.apply(Orc())
-    character.apply(Warrior(10))
+    character.apply(Warrior(7))
 
     formatter = DokuWikiFormatter()
     print(formatter.write(character))

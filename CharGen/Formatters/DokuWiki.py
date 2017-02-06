@@ -14,8 +14,8 @@ class DokuWikiFormatter:
 
         output += "==== DEFENSES ====\n"
         #output += "**AC** " + str(character.func("AC")) + ", " + " touch " + str(character.find("touchAC")) + ", flat-footed " + str(character.find("flatFootedAC")) + "\n\n"
-        #output += "**hp** " + str(getAverageHP(character)) + " (" + getHDString(character) + ")\n\n"
-        output += "**Fort** " + str(character.func("fortSave")) + ", **Ref**" + str(character.func("refSave")) + ", **Will** " + str(character.func("willSave")) + "\n\n"
+        output += "**hp** " + str(getAverageHP(character)) + " (" + getHDString(character) + ")\n\n"
+        output += "**Fort** " + str(character.func("fortSave")) + ", **Ref** " + str(character.func("refSave")) + ", **Will** " + str(character.func("willSave")) + "\n\n"
 
         output += "==== OFFENSES ====\n"
         output += "**Speed** " + str(character.func("speed")) + " ft.\n\n"
