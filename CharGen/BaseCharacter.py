@@ -46,22 +46,9 @@ class BaseCharacter:
     def init(self, character, total):
         return getModifier(character.func("dex"))
 
-    def hpExtra(self, character, total):
-        return total + character.func("lvl") * (getModifier(character.func("con")))
-
     def fortSave(self, character, total):
         return getModifier(character.func("con"))
     def refSave(self, character, total):
         return getModifier(character.func("dex"))
     def willSave(self, character, total):
         return getModifier(character.func("wis"))
-
-    def CMB(self, character, total):
-        return character.func("BAB") + \
-               getModifier(character.func("str")) + \
-               getSizeModifier(character.func("size"))
-    def CMD(self, character, total):
-        return 10 + character.func("BAB") + \
-               getModifier(character.func("str")) + \
-               getModifier(character.func("dex")) + \
-               getSizeModifier(character.func("size"))

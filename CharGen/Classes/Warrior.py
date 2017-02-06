@@ -68,3 +68,14 @@ class Warrior:
         return total + self.badSaveTable[self.level]
     def willSave(self, character, total):
         return total + self.badSaveTable[self.level]
+
+    def skills(self, character, total):
+        total["Climb"].classSkill = True
+        #total["Craft ()"].classSkill = True
+        total["Handle Animal"].classSkill = True
+        total["Intimidate"].classSkill = True
+        #total["Profession ()"].classSkill = True
+        total["Ride"].classSkill = True
+        total["Swim"].classSkill = True
+
+        return total
