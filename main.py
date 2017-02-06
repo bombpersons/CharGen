@@ -2,6 +2,8 @@ from CharGen.Rulesets.Pathfinder.Rules import *
 from CharGen.Rulesets.Pathfinder.BaseCharacter import BaseCharacter
 from CharGen.Rulesets.Pathfinder.Races.Goblin import Goblin
 from CharGen.Rulesets.Pathfinder.Classes.Warrior import Warrior
+from CharGen.Rulesets.Pathfinder.Classes.Wizard import Wizard
+from CharGen.Rulesets.Pathfinder.Classes.Sorcerer import Sorcerer
 
 from CharGen.Rulesets.Pathfinder.Formatters.DokuWiki import DokuWikiFormatter
 
@@ -56,6 +58,8 @@ if __name__ == "__main__":
     character.apply(Goblin())
     character.apply(TestTemplate())
     character.apply(Warrior(7))
+    character.apply(Wizard(3))
+    character.apply(Sorcerer(10))
 
     formatter = DokuWikiFormatter()
     print(formatter.write(character))

@@ -38,6 +38,42 @@ class DokuWikiFormatter:
                 output += str(ranged[i])
             output += "\n\n"
 
+        # Spells
+        spellLists = character.func("spells")
+        for spellListName in spellLists.keys():
+            spellList = spellLists[spellListName]
+
+            # For each spell list.
+            if not spellList.isEmpty():
+                output += "**" + spellListName + "**"
+                output += " (CL " + str(spellList.getCasterLevel()) + "; concentration " + intToBonusString(spellList.getConcentrationBonus(character)) + ")\n\n"
+
+                for i in range(0, 10):
+                    spells = spellList.getSpells(i)
+                    if len(spells) > 0:
+                        output += "     " + str(i) + " Lvl"
+
+                        # If it's a spontaneous spell list, list the number of spells per day.
+                        if spellList.getSpellType() == "Spontaneous":
+                            output += " (" + str(spellList.getSpellsPerDay(i)) + "/day)"
+
+                        # List the spell DC.
+                        output += " (DC " + str(spellList.getDC(character, i)) + ") - "
+
+                        # List the spells for this spell level.
+                        i = 0
+                        for spellName in spells.keys():
+                            if i != 0:
+                                output += ", "
+                            output += spellName
+
+                            spellCount = spells[spellName]
+                            if spellCount > 1:
+                                output += " x" + str(spellCount)
+                            i += 1
+
+                        output += "\n\n"
+
         output += "==== STATISTICS ====\n"
         output += "**Str** " + str(character.func("str")) + \
                   ", **Dex** " + str(character.func("dex")) + \
@@ -45,7 +81,7 @@ class DokuWikiFormatter:
                   ", **Int** " + str(character.func("int")) + \
                   ", **Wis** " + str(character.func("wis")) + \
                   ", **Cha** " + str(character.func("cha")) + "\n\n"
-        output += "**Base Atk** " + str(character.func("BAB")) + "; **CMB** " + str(getCMB(character)) + "; **CMD** " + str(getCMD(character)) + "\n\n"
+        output += "**Base Atk** " + intToBonusString(character.func("BAB")) + "; **CMB** " + intToBonusString(getCMB(character)) + "; **CMD** " + str(getCMD(character)) + "\n\n"
         #output += "**Feats** " ???
 
         skills = character.func("skills")

@@ -294,6 +294,53 @@ class Ability:
         self.name = name
         self.desc = desc
 
+# spells
+class SpellList:
+    def __init__(self, casterLevel=1, castingStat="int", type="Prepared"):
+        self.spells = {}
+        self.spellsPerDay = {}
+        self.type = type
+        self.casterLevel = casterLevel
+        self.castingStat = castingStat
+
+    def setSpellsPerDay(self, lvl, num):
+        self.spellsPerDay[lvl] = num
+
+    def addSpell(self, name, lvl):
+        if lvl not in self.spells:
+            self.spells[lvl] = {}
+
+        if name not in self.spells[lvl]:
+            self.spells[lvl][name] = 1
+        else:
+            self.spells[lvl][name] += 1
+
+    def getSpells(self, lvl):
+        if lvl in self.spells:
+            return self.spells[lvl]
+        return {}
+
+    def getSpellType(self):
+        return self.type
+
+    def getSpellsPerDay(self, lvl):
+        if lvl in self.spellsPerDay:
+            return self.spellsPerDay[lvl]
+        return 0
+
+    def getCasterLevel(self):
+        return self.casterLevel
+
+    def getConcentrationBonus(self, character):
+        return getModifier(character.func(self.castingStat)) + self.casterLevel
+
+    def getDC(self, character, lvl):
+        return 10 + getModifier(character.func(self.castingStat)) + lvl
+
+    def isEmpty(self):
+        return len(self.spells) == 0
+
+
 class PathfinderCharacter(Character):
     def __init__(self):
         Character.__init__(self)
@@ -378,5 +425,9 @@ class PathfinderCharacter(Character):
                 "Survival" : Skill("wis"),
                 "Swim" : Skill("str"),
                 "Use Magic Device" : Skill("cha")
+            },
+
+            "spells" : {
             }
+
         }
