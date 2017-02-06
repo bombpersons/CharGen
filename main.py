@@ -1,9 +1,9 @@
-from CharGen.Character import *
-from CharGen.BaseCharacter import BaseCharacter
-from CharGen.Races.Goblin import Goblin
-from CharGen.Classes.Warrior import Warrior
+from CharGen.Rulesets.Pathfinder.Rules import *
+from CharGen.Rulesets.Pathfinder.BaseCharacter import BaseCharacter
+from CharGen.Rulesets.Pathfinder.Races.Goblin import Goblin
+from CharGen.Rulesets.Pathfinder.Classes.Warrior import Warrior
 
-from CharGen.Formatters.DokuWiki import DokuWikiFormatter
+from CharGen.Rulesets.Pathfinder.Formatters.DokuWiki import DokuWikiFormatter
 
 # A test template.
 class TestTemplate:
@@ -50,7 +50,7 @@ class TestTemplate:
 # Main function.
 if __name__ == "__main__":
     # Gen a test char and print it.
-    character = Character()
+    character = PathfinderCharacter()
 
     character.apply(BaseCharacter("Bob"))
     character.apply(Goblin())

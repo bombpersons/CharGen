@@ -1,4 +1,4 @@
-from CharGen.Character import *
+from CharGen.Rulesets.Pathfinder.Rules import *
 
 class Warrior:
     def __init__(self, lvl):

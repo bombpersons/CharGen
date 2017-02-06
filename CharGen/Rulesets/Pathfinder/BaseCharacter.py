@@ -1,5 +1,5 @@
 import CharGen.Dice as Dice
-from CharGen.Character import *
+from CharGen.Rulesets.Pathfinder.Rules import *
 
 # Ability scores.
 class AbilityScores:
