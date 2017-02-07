@@ -163,10 +163,9 @@ class Ability:
 
 # spells
 class SpellList:
-    def __init__(self, casterLevel=1, castingStat="int", type="Prepared"):
+    def __init__(self, casterLevel=1, castingStat="int"):
         self.spells = {}
         self.spellsPerDay = {}
-        self.type = type
         self.casterLevel = casterLevel
         self.castingStat = castingStat
 
@@ -186,9 +185,6 @@ class SpellList:
         if lvl in self.spells:
             return self.spells[lvl]
         return {}
-
-    def getSpellType(self):
-        return self.type
 
     def getSpellsPerDay(self, lvl):
         if lvl in self.spellsPerDay:
@@ -301,9 +297,9 @@ class PathfinderCharacter(Character):
                 "Swim" : Skill("str"),
                 "Use Magic Device" : Skill("cha")
             },
+            "skillRanks" : 0,
 
-            "spells" : {
-            }
+            "spells" : {}
 
         }
 
@@ -326,7 +322,7 @@ class PathfinderCharacter(Character):
         initStats = self.func("initStats")
         total = 0
         for stat in initStats:
-            total += self.func(stat)
+            total += self.getStatMod(stat)
         initBonus = self.func("initBonus")
         return total + initBonus
 

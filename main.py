@@ -1,9 +1,9 @@
 from CharGen.Rulesets.Pathfinder.Rules import *
 from CharGen.Rulesets.Pathfinder.BaseTemplate import BaseTemplate
 from CharGen.Rulesets.Pathfinder.Races.Goblin import Goblin
-from CharGen.Rulesets.Pathfinder.Classes.Warrior import Warrior
-from CharGen.Rulesets.Pathfinder.Classes.Wizard import Wizard
-from CharGen.Rulesets.Pathfinder.Classes.Sorcerer import Sorcerer
+from CharGen.Rulesets.Pathfinder.Classes.Warrior import *
+from CharGen.Rulesets.Pathfinder.Classes.Wizard import *
+from CharGen.Rulesets.Pathfinder.Classes.Sorcerer import *
 
 from CharGen.Rulesets.Pathfinder.Weapons import *
 
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     character.apply(BaseTemplate("Bob"))
     character.apply(Goblin())
     character.apply(TestTemplate())
-    character.apply(Warrior(7))
+    character.apply(WizardRandom(3))
 
     formatter = DokuWikiFormatter()
     print(formatter.write(character))

@@ -54,7 +54,7 @@ class DokuWikiFormatter:
                         output += "     " + str(i) + " Lvl"
 
                         # If it's a spontaneous spell list, list the number of spells per day.
-                        if spellList.getSpellType() == "Spontaneous":
+                        if spellList.getSpellsPerDay(i) > 0:
                             output += " (" + str(spellList.getSpellsPerDay(i)) + "/day)"
 
                         # List the spell DC.
