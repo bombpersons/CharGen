@@ -20,7 +20,7 @@ class AbilityScores:
         self.cha = Dice.rollDice(3, 6)
 
 # Base template for a character.
-class BaseCharacter:
+class BaseTemplate:
     def __init__(self, name):
         self.abilityScores = AbilityScores();
         self.abilityScores.randomize()
