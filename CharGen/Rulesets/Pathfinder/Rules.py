@@ -5,7 +5,7 @@ import math
 from enum import Enum
 
 # useful function to convert an integer like 3 to +3
-def intToBonusString(n, includeZero=True, before="", after=""):
+def numToBonusString(n, includeZero=True, before="", after=""):
     if n < 0:
         return before + "-" + after + str(abs(n))
     elif n > 0:
@@ -14,33 +14,23 @@ def intToBonusString(n, includeZero=True, before="", after=""):
         return str(n) if includeZero else ""
 
 # Sizes for characters.
-class Size(Enum):
-    SMALL=1
-    MEDIUM=2
-
 def speedFromSize(size):
-    if size == Size.SMALL:
+    if size == "Small":
         return 20
-    elif size == Size.MEDIUM:
+    elif size == "Medium":
         return 30
 
 def getSizeModifier(size):
-    if size == Size.SMALL:
+    if size == "Small":
         return 1
-    elif size == Size.MEDIUM:
+    elif size == "Medium":
         return 0
 
-def getSizeSkillModifier(size):
-    if size == Size.SMALL:
+def getStealthSkillModifierBasedOnSize(size):
+    if size == "Small":
         return 4
-    elif size == Size.MEDIUM:
+    elif size == "Medium":
         return 0
-
-def getSizeString(size):
-    if size == Size.SMALL:
-        return "Small"
-    elif size == Size.MEDIUM:
-        return "Medium"
 
 # Vision for characters.
 class Vision(Enum):
@@ -58,27 +48,8 @@ class Sex(Enum):
     FEMALE=2,
     NOT_APPLICABLE=3
 
-# Functions for dealing with HD
-def getExtraHP(character):
-    lvl = character.func("lvl")
-    hpStats = character.func("hpStats")
-
-    total = 0
-    for stat in hpStats:
-        total += getModifier(character.func(stat))
-    return total * lvl
-
-def getAverageHP(character):
-    hd = character.func("hd");
-    hpExtra = getExtraHP(character)
-
-    hdAverage = hpExtra
-    for i in hd:
-        hdAverage += (i[0] * (i[1] / 2))
-    return math.floor(hdAverage)
-
 def getDiceString(dice, bonus=0, before="", after=""):
-    return str(dice[0]) + "d" + str(dice[1]) + intToBonusString(bonus, includeZero=False, before=before, after=after)
+    return str(dice[0]) + "d" + str(dice[1]) + numToBonusString(bonus, includeZero=False, before=before, after=after)
 
 def getDiceSetString(dice, bonus=0, before="", after=""):
     s = ""
@@ -94,13 +65,8 @@ def getDiceSetString(dice, bonus=0, before="", after=""):
                     s += "+"
 
             s += getDiceString(item)
-        s += intToBonusString(bonus, includeZero=False, before=before, after=after)
+        s += numToBonusString(bonus, includeZero=False, before=before, after=after)
     return s
-
-def getHDString(character):
-    hd = character.func("hd");
-    hpExtra = getExtraHP(character)
-    return getDiceSetString(hd, hpExtra)
 
 # Class that defines an attack. Specifies a to hit bonus as well as damage and any other effects.
 class Attack:
@@ -164,7 +130,7 @@ class Attack:
         return toHit
 
     def __str__(self):
-        s = self.name + " " + intToBonusString(self.getToHit()) + " "
+        s = self.name + " " + numToBonusString(self.getToHit()) + " "
         s += "(" + getDiceString(self.dmgDice, self.getDmgMod())
 
         if self.critMult != 2 or self.critRange != 20:
@@ -182,111 +148,12 @@ class Attack:
         s += ")"
         return s
 
-# Get AC, CMD, and CMB
-def getCMB(character):
-    stats = character.func("CMBStats")
-
-    total = 0
-    for stat in stats:
-        total += getModifier(character.func(stat))
-
-    return character.func("BAB") + total
-
-def getCMD(character, flat=False):
-    statsStill = character.func("CMDStats1")
-    statsMove = character.func("CMDStats2")
-
-    total = 0
-    for stat in statsStill:
-        total += getModifier(character.func(stat))
-    if not flat:
-        for stat in statsMove:
-            total += getModifier(character.func(stat))
-
-    return 10 + total + character.func("BAB") + character.func("CMDBonus")
-
-def getAC(character):
-    natBonus = character.func("naturalACBonus")
-    dodgeBonus = character.func("dodgeACBonus")
-    deflectBonus = character.func("deflectACBonus")
-    miscBonus = character.func("miscACBonus")
-    armorBonus = character.func("armorACBonus")
-    shieldBonus = character.func("shieldACBonus")
-    stats = character.func("ACStats")
-
-    totalStats = 0
-    for stat in stats:
-        totalStats += getModifier(character.func(stat))
-
-    return 10 + totalStats + natBonus + dodgeBonus + deflectBonus + miscBonus + armorBonus + shieldBonus
-
-def getTouchAC(character):
-    dodgeBonus = character.func("dodgeACBonus")
-    stats = character.func("ACStats")
-    sizeBonus = getSizeModifier(character.func("size"))
-
-    totalStats = 0
-    for stat in stats:
-        totalStats += getModifier(character.func(stat))
-
-    return 10 + totalStats + dodgeBonus + sizeBonus
-
-def getFlatAC(character):
-    natBonus = character.func("naturalACBonus")
-    deflectBonus = character.func("deflectACBonus")
-    miscBonus = character.func("miscACBonus")
-    armorBonus = character.func("armorACBonus")
-    shieldBonus = character.func("shieldACBonus")
-
-    ac = 10 + natBonus + deflectBonus + miscBonus + armorBonus + shieldBonus
-
-def getFlatAC(character):
-    natBonus = character.func("naturalACBonus")
-    deflectBonus = character.func("deflectACBonus")
-    miscBonus = character.func("miscACBonus")
-    armorBonus = character.func("armorACBonus")
-    shieldBonus = character.func("shieldACBonus")
-
-    ac = 10 + natBonus + deflectBonus + miscBonus + armorBonus + shieldBonus
-
-    # if our modifier is negative, it still applies
-    stats = character.func("ACStats")
-    totalStats = 0
-    for stat in stats:
-        totalStats += getModifier(character.func(stat))
-    if totalStats < 0:
-        ac += totalStats
-
-    sizeBonus = getSizeModifier(character.func("size"))
-    if sizeBonus < 0:
-        ac += sizeBonus
-
-    return ac
-
 # skills
 class Skill:
     def __init__(self, stat):
         self.stat = stat
         self.ranks = 0
         self.classSkill = False
-
-def getSkillBonus(character, skillName):
-    skills = character.func("skills")
-    if not skillName in skills:
-        return 0
-    skill = skills[skillName]
-
-    bonus = 0
-    if skill.ranks > 0 and skill.classSkill:
-        bonus += 3
-    bonus += skill.ranks
-    bonus += getModifier(character.func(skill.stat))
-
-    # There are some special bonuses skills get due to size.
-    if skillName == "Stealth":
-        bonus += getSizeSkillModifier(character.func("size"))
-
-    return bonus
 
 # special abilities
 class Ability:
@@ -354,19 +221,23 @@ class PathfinderCharacter(Character):
 
             "sex" : Sex.MALE,
             "type" : "Humanoid",
-            "size" : Size.MEDIUM,
+            "size" : "Medium",
             "speed" : 0,
 
             "name" : [],
             "vision" : [],
 
-            "init" : 0,
+            # Initiative and stats used to calculate it.
+            "initStats" : ["dex"],
+            "initBonus" : 0,
 
+            # Hit Dice and Stats used to caculate extra hitpoints.
             "hd" : [],
             "hpStats" : ["con"],
 
             "lvl" : 0,
 
+            # AC bonuses
             "naturalACBonus" : 0,
             "dodgeACBonus" : 0,
             "deflectACBonus" : 0,
@@ -375,9 +246,13 @@ class PathfinderCharacter(Character):
             "shieldACBonus" : 0,
             "ACStats" : ["dex"],
 
-            "fortSave" : 0,
-            "refSave" : 0,
-            "willSave" : 0,
+            # Saves
+            "fortSaveStats" : ["con"],
+            "fortSaveBonus" : 0,
+            "refSaveStats" : ["dex"],
+            "refSaveBonus" : 0,
+            "willSaveStats" : ["wis"],
+            "willSaveBonus" : 0,
 
             "BAB" : 0,
 
@@ -431,3 +306,197 @@ class PathfinderCharacter(Character):
             }
 
         }
+
+    def getStat(self, stat):
+        return self.func(stat)
+
+    def getStatMod(self, stat):
+        return getModifier(self.func(stat))
+
+    def getName(self):
+        return " ".join(self.func("name"))
+
+    def getSize(self):
+        return self.func("size")
+
+    def getType(self):
+        return self.func("type")
+
+    def getInitBonus(self):
+        initStats = self.func("initStats")
+        total = 0
+        for stat in initStats:
+            total += self.func(stat)
+        initBonus = self.func("initBonus")
+        return total + initBonus
+
+    def getAC(self):
+        natBonus = self.func("naturalACBonus")
+        dodgeBonus = self.func("dodgeACBonus")
+        deflectBonus = self.func("deflectACBonus")
+        miscBonus = self.func("miscACBonus")
+        armorBonus = self.func("armorACBonus")
+        shieldBonus = self.func("shieldACBonus")
+        sizeBonus = getSizeModifier(self.func("size"))
+        stats = self.func("ACStats")
+
+        totalStats = 0
+        for stat in stats:
+            totalStats += getModifier(self.func(stat))
+
+        return 10 + totalStats + natBonus + dodgeBonus + deflectBonus + miscBonus + armorBonus + shieldBonus + sizeBonus
+
+    def getTouchAC(self):
+        dodgeBonus = self.func("dodgeACBonus")
+        stats = self.func("ACStats")
+        sizeBonus = getSizeModifier(self.func("size"))
+
+        totalStats = 0
+        for stat in stats:
+            totalStats += getModifier(self.func(stat))
+
+        return 10 + totalStats + dodgeBonus + sizeBonus
+
+    def getFlatAC(self):
+        natBonus = self.func("naturalACBonus")
+        deflectBonus = self.func("deflectACBonus")
+        miscBonus = self.func("miscACBonus")
+        armorBonus = self.func("armorACBonus")
+        shieldBonus = self.func("shieldACBonus")
+
+        ac = 10 + natBonus + deflectBonus + miscBonus + armorBonus + shieldBonus
+
+        # if our modifier is negative, it still applies
+        stats = self.func("ACStats")
+        totalStats = 0
+        for stat in stats:
+            totalStats += getModifier(self.func(stat))
+        if totalStats < 0:
+            ac += totalStats
+
+        sizeBonus = getSizeModifier(self.func("size"))
+        if sizeBonus < 0:
+            ac += sizeBonus
+
+        return ac
+
+    def getExtraHP(self):
+        lvl = self.func("lvl")
+        hpStats = self.func("hpStats")
+
+        total = 0
+        for stat in hpStats:
+            total += self.getStatMod(stat)
+        return total * lvl
+
+    def getAverageHP(self):
+        hd = self.func("hd");
+        hdAverage = self.getExtraHP()
+        for i in hd:
+            hdAverage += (i[0] * (i[1] / 2))
+        return math.floor(hdAverage)
+
+    def getHDString(self):
+        hd = self.func("hd");
+        hpExtra = self.getExtraHP()
+        return getDiceSetString(hd, hpExtra)
+
+    def getFortSave(self):
+        bonus = self.func("fortSaveBonus")
+        fortSaveStats = self.func("fortSaveStats")
+        total = 0
+        for stat in fortSaveStats:
+            total += self.getStatMod(stat)
+
+        return bonus + total
+
+    def getRefSave(self):
+        bonus = self.func("refSaveBonus")
+        refSaveStats = self.func("refSaveStats")
+        total = 0
+        for stat in refSaveStats:
+            total += self.getStatMod(stat)
+
+        return bonus + total
+
+    def getWillSave(self):
+        bonus = self.func("willSaveBonus")
+        willSaveStats = self.func("willSaveStats")
+        total = 0
+        for stat in willSaveStats:
+            total += self.getStatMod(stat)
+
+        return bonus + total
+
+    def getSpeed(self):
+        return self.func("speed")
+
+    def getMeleeAttacks(self):
+        return self.func("melee")
+
+    def getRangedAttacks(self):
+        return self.func("ranged")
+
+    def getSpellLists(self):
+        return self.func("spells")
+
+    def getBAB(self):
+        return self.func("BAB")
+
+    # Get AC, CMD, and CMB
+    def getCMB(self):
+        stats = self.func("CMBStats")
+
+        total = 0
+        for stat in stats:
+            total += self.getStatMod(stat)
+
+        return self.getBAB() + total
+
+    def getCMD(self):
+        statsStill = self.func("CMDStats1")
+        statsMove = self.func("CMDStats2")
+
+        total = 0
+        for stat in statsStill:
+            total += self.getStatMod(stat)
+
+        return 10 + total + self.getBAB() + self.func("CMDBonus")
+
+    def getFlatCMD(self):
+        statsStill = self.func("CMDStats1")
+        statsMove = self.func("CMDStats2")
+
+        total = 0
+        for stat in statsStill:
+            total += self.getStatMod(stat)
+        for stat in statsMove:
+            total += self.getStatMod(stat)
+
+        return 10 + total + self.getBAB() + self.func("CMDBonus")
+
+    def getSkillList(self):
+        skills = self.func("skills")
+        return skills.keys()
+
+    def getSkillBonus(self, skillName):
+        skills = self.func("skills")
+        if not skillName in skills:
+            return 0
+        skill = skills[skillName]
+
+        bonus = 0
+        if skill.ranks > 0 and skill.classSkill:
+            bonus += 3
+        bonus += skill.ranks
+        bonus += self.getStatMod(skill.stat)
+
+        # There are some special bonuses skills get due to size.
+        if skillName == "Stealth":
+            bonus += getStealthSkillModifierBasedOnSize(self.getSize())
+
+        return bonus
+
+    def getAbilityList(self):
+        abilities = self.func("abilities")
+        return abilities

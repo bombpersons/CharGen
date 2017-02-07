@@ -42,13 +42,3 @@ class BaseCharacter:
 
     def name(self, character, total):
         return [self.charName]
-
-    def init(self, character, total):
-        return getModifier(character.func("dex"))
-
-    def fortSave(self, character, total):
-        return getModifier(character.func("con"))
-    def refSave(self, character, total):
-        return getModifier(character.func("dex"))
-    def willSave(self, character, total):
-        return getModifier(character.func("wis"))

@@ -5,7 +5,7 @@ class Orc:
         pass
 
     def size(self, character, total):
-        return Size.MEDIUM
+        return "Medium"
 
     def speed(self, character, total):
         return 30

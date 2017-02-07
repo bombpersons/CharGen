@@ -8,19 +8,19 @@ class DokuWikiFormatter:
         output = ""
 
         # First the name of the character.
-        output = "===== " + " ".join(character.func("name")) + " =====\n"
-        output += getSizeString(character.func("size")) + " " + character.func("type") + "\n\n"
-        output += "**Init** " + str(character.func("init")) + "\n\n" #""; **Perception** " + str(character.func("perception")) + "\n\n"
+        output = "===== " + character.getName() + " =====\n"
+        output += character.getSize() + " " + character.getType() + "\n\n"
+        output += "**Init** " + numToBonusString(character.getInitBonus()) + "; **Perception** " + numToBonusString(character.getSkillBonus("Perception")) + "\n\n"
 
         output += "==== DEFENSES ====\n"
-        output += "**AC** " + str(getAC(character)) + ", touch " + str(getTouchAC(character)) + ", flat-footed " + str(getFlatAC(character)) + "\n\n"
-        output += "**hp** " + str(getAverageHP(character)) + " (" + getHDString(character) + ")\n\n"
-        output += "**Fort** " + intToBonusString(character.func("fortSave")) + ", **Ref** " + intToBonusString(character.func("refSave")) + ", **Will** " + intToBonusString(character.func("willSave")) + "\n\n"
+        output += "**AC** " + str(character.getAC()) + ", touch " + str(character.getTouchAC()) + ", flat-footed " + str(character.getFlatAC()) + "\n\n"
+        output += "**hp** " + str(character.getAverageHP()) + " (" + character.getHDString() + ")\n\n"
+        output += "**Fort** " + numToBonusString(character.getFortSave()) + ", **Ref** " + numToBonusString(character.getFortSave()) + ", **Will** " + numToBonusString(character.getWillSave()) + "\n\n"
 
         output += "==== OFFENSES ====\n"
-        output += "**Speed** " + str(character.func("speed")) + " ft.\n\n"
+        output += "**Speed** " + str(character.getSpeed()) + " ft.\n\n"
 
-        melee = character.func("melee")
+        melee = character.getMeleeAttacks()
         if len(melee) > 0:
             output += "**Melee** "
             for i in range(0, len(melee)):
@@ -29,7 +29,7 @@ class DokuWikiFormatter:
                 output += str(melee[i])
             output += "\n\n"
 
-        ranged = character.func("ranged")
+        ranged = character.getRangedAttacks()
         if len(ranged) > 0:
             output += "**Ranged** "
             for i in range(0, len(ranged)):
@@ -39,14 +39,14 @@ class DokuWikiFormatter:
             output += "\n\n"
 
         # Spells
-        spellLists = character.func("spells")
+        spellLists = character.getSpellLists()
         for spellListName in spellLists.keys():
             spellList = spellLists[spellListName]
 
             # For each spell list.
             if not spellList.isEmpty():
                 output += "**" + spellListName + "**"
-                output += " (CL " + str(spellList.getCasterLevel()) + "; concentration " + intToBonusString(spellList.getConcentrationBonus(character)) + ")\n\n"
+                output += " (CL " + str(spellList.getCasterLevel()) + "; concentration " + numToBonusString(spellList.getConcentrationBonus(character)) + ")\n\n"
 
                 for i in range(0, 10):
                     spells = spellList.getSpells(i)
@@ -75,32 +75,30 @@ class DokuWikiFormatter:
                         output += "\n\n"
 
         output += "==== STATISTICS ====\n"
-        output += "**Str** " + str(character.func("str")) + \
-                  ", **Dex** " + str(character.func("dex")) + \
-                  ", **Con** " + str(character.func("con")) + \
-                  ", **Int** " + str(character.func("int")) + \
-                  ", **Wis** " + str(character.func("wis")) + \
-                  ", **Cha** " + str(character.func("cha")) + "\n\n"
-        output += "**Base Atk** " + intToBonusString(character.func("BAB")) + "; **CMB** " + intToBonusString(getCMB(character)) + "; **CMD** " + str(getCMD(character)) + "\n\n"
+        output += "**Str** " + str(character.getStat("str")) + \
+                  ", **Dex** " + str(character.getStat("dex")) + \
+                  ", **Con** " + str(character.getStat("con")) + \
+                  ", **Int** " + str(character.getStat("int")) + \
+                  ", **Wis** " + str(character.getStat("wis")) + \
+                  ", **Cha** " + str(character.getStat("cha")) + "\n\n"
+        output += "**Base Atk** " + numToBonusString(character.getBAB()) + "; **CMB** " + numToBonusString(character.getCMB()) + "; **CMD** " + str(character.getCMD()) + "\n\n"
         #output += "**Feats** " ???
 
-        skills = character.func("skills")
+        skills = character.getSkillList()
         if len(skills) > 0:
             output += "**Skills** "
             i = 0
-            for s in skills.keys():
+            for s in skills:
                 if i != 0:
                     output += ", "
-
-                skill = skills[s]
-                output += "**" + s + "** " + intToBonusString(getSkillBonus(character, s))
+                output += "**" + s + "** " + numToBonusString(character.getSkillBonus(s))
                 i += 1
             output += "\n\n"
 
         #output += "**Languages** " ???
         #output += "**Gear**" ???
 
-        abilities = character.func("abilities")
+        abilities = character.getAbilityList()
         if len(abilities) > 0:
             output += "==== SPECIAL ABILITIES ====\n"
         for ability in abilities:

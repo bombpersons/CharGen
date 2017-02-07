@@ -5,7 +5,7 @@ class Goblin:
         pass
 
     def size(self, character, total):
-        return Size.SMALL
+        return "Small"
 
     def speed(self, character, total):
         return 30
