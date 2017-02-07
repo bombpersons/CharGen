@@ -9,5 +9,6 @@ import CharGen.Rulesets.Pathfinder.Classes.Warrior as Warrior
 if __name__ == "__main__":
     app = guiApp.Application(tkWindow.CharacterGUI, pfRules.PathfinderCharacter)
     app.character.apply(BaseTemplate.BaseTemplate("Bob"))
+    app.character.apply(Goblin.Goblin())
     app.character.apply(Warrior.Warrior(10))
     app.run()
