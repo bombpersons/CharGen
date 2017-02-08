@@ -264,6 +264,7 @@ class PathfinderCharacter(Character):
 
             "abilities" : [],
 
+            # Skills
             "skills" : {
                 "Acrobatics" : Skill("dex"),
                 "Appraise" : Skill("int"),
@@ -299,6 +300,11 @@ class PathfinderCharacter(Character):
             },
             "skillRanks" : 0,
 
+            # Proficiencies
+            "weaponProficiency" : {},
+            "armorProficiency" : {},
+
+            # Spell lists
             "spells" : {}
 
         }

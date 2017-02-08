@@ -58,25 +58,15 @@ class SpellList:
         if name in self.spells:
             return self.spells[name]
 
-    def getRandomSpellByLvl(self, lvl):
-        # Gather all spells of that lvl
-        spells = []
-        for spell in self.spells.values():
-            if spell.lvl == lvl:
-                spells += [spell]
-
-        if len(spells) == 0:
-            return None
-
-        return spells[random.randint(0, len(spells) - 1)]
-
-    def getRandomSpellByTrait(self, traits):
+    def getRandomSpell(self, lvl, traits=[]):
         potential = []
         for spell in self.spells.values():
             found = True
             for trait in traits:
                 if trait not in spell.traits:
                     found = False
+            if spell.lvl != lvl:
+                found = False
 
             if found:
                 potential += [spell]

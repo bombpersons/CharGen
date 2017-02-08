@@ -1,9 +1,9 @@
 from CharGen.Rulesets.Pathfinder.Rules import *
-from CharGen.Rulesets.Pathfinder.BaseTemplate import BaseTemplate
-from CharGen.Rulesets.Pathfinder.Races.Goblin import Goblin
-from CharGen.Rulesets.Pathfinder.Classes.Warrior import *
-from CharGen.Rulesets.Pathfinder.Classes.Wizard import *
-from CharGen.Rulesets.Pathfinder.Classes.Sorcerer import *
+import CharGen.Rulesets.Pathfinder.BaseTemplate as BaseTemplate
+import CharGen.Rulesets.Pathfinder.Races.Goblin as Goblin
+import CharGen.Rulesets.Pathfinder.Classes.Warrior as Warrior
+import CharGen.Rulesets.Pathfinder.Classes.Wizard as Wizard
+import CharGen.Rulesets.Pathfinder.Classes.Sorcerer as Sorcerer
 
 from CharGen.Rulesets.Pathfinder.Weapons import *
 
@@ -18,7 +18,7 @@ class TestTemplate:
         return total + 4
 
     def melee(self, character, total):
-        attack = WesternWeaponList().getRandomWeapon(["Unarmed Attack"]).getAttack(character)
+        attack = WesternWeaponList().getRandomWeapon(["Simple"]).getAttack(character)
         return total + [attack]
 
 # Main function.
@@ -26,10 +26,10 @@ if __name__ == "__main__":
     # Gen a test char and print it.
     character = PathfinderCharacter()
 
-    character.apply(BaseTemplate("Bob"))
-    character.apply(Goblin())
+    character.apply(BaseTemplate.BaseTemplate("Bob"))
+    character.apply(Goblin.Goblin())
     character.apply(TestTemplate())
-    character.apply(WizardRandom(3))
+    character.apply(Wizard.WizardRandom(3))
 
     formatter = DokuWikiFormatter()
     print(formatter.write(character))
