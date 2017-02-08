@@ -62,14 +62,21 @@ class Wizard:
     def getSpellsPerDay(self, character):
         spellsPerDay = self.spellsPerDay[self.level]
 
+        # A character with a positive int mod might get extra spells slots.
         intMod = character.getStatMod("int")
         if intMod > 0:
-
-            #TODO prevent wizards of high int mod from casting spells beyond their level.
-
             extraSpellsPerDay = self.extraSpellsPerDay[intMod]
-            combined = [x + y for x, y in list(zip(spellsPerDay, extraSpellsPerDay))]
-            return combined
+            for i in range(0, len(extraSpellsPerDay) - 1):
+                if spellsPerDay[i] == 0:
+                    extraSpellsPerDay[i] = 0
+
+            spellsPerDay = [x + y for x, y in list(zip(spellsPerDay, extraSpellsPerDay))]
+
+        # A wizard needs at least 10 + spell level int to cast a spell.
+        int = character.getStat("int")
+        for i in range(0, len(spellsPerDay) - 1):
+            if int < (10 + i):
+                spellsPerDay[i] = 0
 
         return spellsPerDay
 

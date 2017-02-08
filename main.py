@@ -4,6 +4,7 @@ import CharGen.Rulesets.Pathfinder.Races.Goblin as Goblin
 import CharGen.Rulesets.Pathfinder.Classes.Warrior as Warrior
 import CharGen.Rulesets.Pathfinder.Classes.Wizard as Wizard
 import CharGen.Rulesets.Pathfinder.Classes.Sorcerer as Sorcerer
+import CharGen.Rulesets.Pathfinder.Classes.Util as Util
 
 from CharGen.Rulesets.Pathfinder.Weapons import *
 
@@ -28,8 +29,9 @@ if __name__ == "__main__":
 
     character.apply(BaseTemplate.BaseTemplate("Bob"))
     character.apply(Goblin.Goblin())
-    character.apply(TestTemplate())
-    character.apply(Wizard.WizardRandom(3))
+
+    c = Util.GetRandomAppropriateClass(character, 2)
+    character.apply(c)
 
     formatter = DokuWikiFormatter()
     print(formatter.write(character))
