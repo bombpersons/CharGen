@@ -1,4 +1,4 @@
-from CharGen.Rulesets.Pathfinder import *
+from CharGen.Rulesets.Pathfinder.Rules import *
 
 class Rogue:
     def __init__(self, lvl):
@@ -19,12 +19,13 @@ class Rogue:
             (9, 6), (9, 6),
             (10, 6), (10, 6)
         ]
+        self.trapSenseTable = [0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6]
 
     def name(self, character, total):
         return total + ["Lvl " + str(self.level) + " Rogue"]
 
     def hd(self, character, total):
-        return total + [(self.level, 10)]
+        return total + [(self.level, 8)]
 
     def lvl(self, character, total):
         return total + self.level
@@ -51,7 +52,7 @@ class Rogue:
         total["Escape Artist"].classSkill = True
         total["Intimidate"].classSkill = True
         total["Knowledge (Dungeoneering)"].classSkill = True
-        total["Knowledeg (Local)"].classSkill = True
+        total["Knowledge (Local)"].classSkill = True
         total["Linguistics"].classSkill = True
         total["Perception"].classSkill = True
         #total["Perform"].classSkill = True
@@ -65,29 +66,45 @@ class Rogue:
         return total
 
     def skillRanks(self, character, total):
-        return total + 2 * self.level
+        return total + 8 * self.level
 
     def weaponTraitProficiency(self, character, total):
         return total + ["Simple"]
 
     def weaponProficiency(self, character, total):
-        return total + ["Hand Crossbow", "Rapier", "Sap", "Shortbow", "Shortsword"]
+        return total + ["Hand Crossbow", "Rapier", "Sap", "Shortbow", "Short Sword"]
 
     def armorTraitProficiency(self, character, total):
         return total + ["Light"]
 
     def abilities(self, character, total):
         newAbilities = []
+        sneakAttackDice = self.sneakDmgTable[self.level]
+        newAbilities += [Ability("Sneak Attack", "Add " + str(sneakAttackDice[0]) + "d" + str(sneakAttackDice[1]) + " damage to target when flanked or flat-footed.")]
+
         if self.level >= 2:
-            evasion = Ability()
-            evasion.name = "Evasion (Ex)"
-            evasion.desc = "At 2nd level and higher, a rogue can avoid even magical and unusual attacks with great agility. If she makes a successful Reflex saving throw against an attack that normally deals half damage on a successful save, she instead takes no damage. Evasion can be used only if the rogue is wearing light armor or no armor. A helpless rogue does not gain the benefit of evasion."
-            newAbilities += [evasion]
+            ab = Ability("Evasion (Ex)", \
+                         "Take no damage on succesful reflex saves rather than half.")
+            newAbilities += [ab]
 
         if self.level >= 3:
-            trapSense = Ability()
-            trapSense.name = "Trap Sense (Ex)"
-            trapSense.desc = "At 3rd level, a rogue gains an intuitive sense that alerts her to danger from traps, giving her a +1 bonus on Reflex saves made to avoid traps and a +1 dodge bonus to AC against attacks made by traps. These bonuses rise to +2 when the rogue reaches 6th level, to +3 when she reaches 9th level, to +4 when she reaches 12th level, to +5 at 15th, and to +6 at 18th level. Trap sense bonuses gained from multiple classes stack."
-            newAbilities += [trapSense]
+            ab = Ability("Trap Sense (Ex)", \
+                         "Get a +" + str(self.trapSenseTable[self.level]) + " on reflex saves and AC against traps.")
+            newAbilities += [ab]
+
+        if self.level >= 4:
+            ab = Ability("Uncanny Dodge (Ex)", \
+                        "Can't be caught flat-footed (can still be feinted).")
+            newAbilities += [ab]
+
+        if self.level >= 8:
+            ab = Ability("Improved Uncanny Dodge (Ex)", \
+                        "Can't be flanked unless the attacker is a rogue of level " + str(self.level+4) + " or higher.")
+            newAbilities += [ab]
+
+        if self.level >= 20:
+            ab = Ability("Master Strike (Ex)", \
+                         "Whenever the rogue deals a sneak attack, they may choose to put the target to sleep for 1d4 hours, paralyze them for 2d6 rounds, or kill them")
+            newAbilities += [ab]
 
         return total + newAbilities

@@ -56,7 +56,7 @@ class WeaponList:
         self.addWeapon(Weapon("Gauntlet", (1, 3), 20, 2, 0, ["B"], ["Simple", "Unarmed Attack"]))
         self.addWeapon(Weapon("Unarmed Strike", (1, 3), 20, 2, 0, ["B"], ["nonlethal", "Simple", "Unarmed Atack"]))
 
-        self.addWeapon(Weapon("Battle aspergillum", (1, 6), 2, 20, 0, ["B"], ["Simple", "Light", "One-Handed"]))
+        self.addWeapon(Weapon("Battle aspergillum", (1, 6), 20, 2, 0, ["B"], ["Simple", "Light", "One-Handed"]))
         self.addWeapon(Weapon("Brass Knife", (1, 4), 19, 2, 10, ["P", "S"], ["fragile", "Simple", "Light", "One-Handed"]))
         self.addWeapon(Weapon("Brass Knuckles", (1, 3), 20, 2, 0, ["B"], ["monk", "Simple", "Light", "One-Handed"]))
         self.addWeapon(Weapon("Cestus", (1, 4), 19, 2, 0, ["B", "P"], ["monk", "Simple", "Light", "One-Handed"]))
@@ -163,6 +163,9 @@ class WeaponList:
         self.addWeapon(Weapon("Shortbow", (1, 6), 20, 3, 60, ["P"], ["Martial", "Ranged"]))
 
         # TODO exotic weapons.
+        self.addWeapon(Weapon("Whip", (1, 3), 20, 2, 0, ["S"], ["disarm", "nonlethal", "reach", "Exotic", "One-Handed"]))
+
+        self.addWeapon(Weapon("Hand Crossbow", (1, 4), 19, 2, 30, ["P"], ["Exotic", "Ranged"]))
 
     def addWeapon(self, weapon):
         self.set[weapon.name] = weapon
