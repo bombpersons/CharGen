@@ -16,7 +16,7 @@ class Wizard:
         self.babTable = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10]
         self.badSaveTable = [0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6]
         self.goodSaveTable = [2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12]
-        self.spellsPerDay = [
+        self.spellsKnown = [
             [3, 1, 0, 0, 0, 0, 0, 0, 0, 0],
             [4, 2, 0, 0, 0, 0, 0, 0, 0, 0],
             [4, 3, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -59,7 +59,7 @@ class Wizard:
             [0, 5, 4, 4, 4, 4, 3, 3, 3, 3]
         ]
 
-        self.spellsKnown = []
+        self.spellsPrepared = []
         self.wizardSchool = ""
 
     def randomize(self, character):
@@ -78,17 +78,17 @@ class Wizard:
         for spellCount in spellsPerDay:
             # Pick spells.
             for i in range(1, spellCount):
-                self.spellsKnown += [allWizardSpells.getRandomSpell(spellLvl)]
+                self.spellsPrepared += [allWizardSpells.getRandomSpell(spellLvl)]
 
             # Pick one more from the specialized school for each lvl.
             if spellCount > 0:
-                self.spellsKnown += [allWizardSpells.getRandomSpell(spellLvl, [self.wizardSchool])]
+                self.spellsPrepared += [allWizardSpells.getRandomSpell(spellLvl, [self.wizardSchool])]
             spellLvl += 1
 
 
 
     def getSpellsPerDay(self, character):
-        spellsPerDay = self.spellsPerDay[self.level-1]
+        spellsPerDay = self.spellsKnown[self.level-1]
 
         # A character with a positive int mod might get extra spells slots.
         intMod = character.getStatMod("int")
@@ -147,7 +147,7 @@ class Wizard:
     def spells(self, character, total):
         # Return with our spell list.
         wizardSpells = SpellList(self.level, "int")
-        for spell in self.spellsKnown:
+        for spell in self.spellsPrepared:
             wizardSpells.addSpell(spell.name, spell.lvl)
 
         total["Wizard Spells"] = wizardSpells

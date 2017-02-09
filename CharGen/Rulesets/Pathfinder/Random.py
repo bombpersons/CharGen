@@ -1,8 +1,11 @@
 import CharGen.Rulesets.Pathfinder.Classes.Sorcerer as Sorcerer
 import CharGen.Rulesets.Pathfinder.Classes.Wizard as Wizard
 import CharGen.Rulesets.Pathfinder.Classes.Warrior as Warrior
+import CharGen.Rulesets.Pathfinder.Classes.Adept as Adept
+
 import CharGen.Rulesets.Pathfinder.Classes.Commoner as Commoner
 import CharGen.Rulesets.Pathfinder.Classes.Expert as Expert
+import CharGen.Rulesets.Pathfinder.Classes.Aristocrat as Aristocrat
 
 import CharGen.Rulesets.Pathfinder.Races.Dwarf as Dwarf
 import CharGen.Rulesets.Pathfinder.Races.Elf as Elf
@@ -65,14 +68,16 @@ def getRandomRace():
 def getRandomAppropriateClass(character, lvl):
     # Classes, with a list of minimum stats
     possibleClasses = {
-        #Sorcerer.RandomSorcerer : ["cha"],
-        Wizard.Wizard : [0, 0, 0, 11, 0, 0],
-        Warrior.Warrior : [12, 5, 5, 0, 0, 0]
+        Sorcerer.Sorcerer : [0, 0, 0, 0, 0, 14],
+        Wizard.Wizard : [0, 0, 0, 14, 0, 0],
+        Warrior.Warrior : [12, 5, 5, 0, 0, 0],
+        Adept.Adept : [0, 0, 0, 14, 0, 0, 0]
     }
 
     commonerClasses = [
         Commoner.Commoner,
-        Expert.Expert
+        Expert.Expert,
+        Aristocrat.Aristocrat
     ]
 
     # Get the character stats
@@ -86,7 +91,7 @@ def getRandomAppropriateClass(character, lvl):
     ]
 
     # Figure out the best class for them.
-    shortList = []
+    shortList = commonerClasses
     for c, stats in possibleClasses.items():
         qualify = True
         for charStat, stat in list(zip(charStats, stats)):
@@ -95,11 +100,6 @@ def getRandomAppropriateClass(character, lvl):
 
         if qualify:
             shortList += [c]
-
-    # If the character is really crap and doesn't qualify for any of the classes,
-    # just give them a commoner class.
-    if len(shortList) == 0:
-        shortList = commonerClasses
 
     # Pick one of the shortlist classes at random.
     picked = shortList[random.randint(0, len(shortList) - 1)]
@@ -139,8 +139,9 @@ def getRandomAppropriateWeaponAndArmor(character):
     possibleArmor = []
     for trait in armorTraits:
         # If we picked a two handed weapon, then don't pick any shields.
-        if "Two-Handed" in pickedWeapon.traits and trait == "Shield":
-            continue
+        if pickedWeapon != None:
+            if "Two-Handed" in pickedWeapon.traits and trait == "Shield":
+                continue
 
         possibleArmor += allArmors.getArmors([trait])
 

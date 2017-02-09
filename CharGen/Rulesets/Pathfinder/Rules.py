@@ -280,6 +280,7 @@ class PathfinderCharacter(Character):
                 "Intimidate" : Skill("cha"),
                 "Knowledge (Arcana)" : Skill("int"),
                 "Knowledge (Dungeoneering)" : Skill("int"),
+                "Knowledge (Engineering)" : Skill("int"),
                 "Knowledge (Geography)" : Skill("int"),
                 "Knowledge (History)" : Skill("int"),
                 "Knowledge (Local)" : Skill("int"),
