@@ -301,11 +301,15 @@ class PathfinderCharacter(Character):
             "skillRanks" : 0,
 
             # Proficiencies
-            "weaponProficiency" : {},
-            "armorProficiency" : {},
+            "weaponProficiency" : [],
+            "weaponTraitProficiency" : [],
+            "armorTraitProficiency" : [],
 
             # Spell lists
-            "spells" : {}
+            "spells" : {},
+
+            # Gear
+            "gear" : []
 
         }
 
@@ -479,7 +483,11 @@ class PathfinderCharacter(Character):
 
     def getSkillList(self):
         skills = self.func("skills")
-        return skills.keys()
+        ret = []
+        for i in skills.keys():
+            ret += [i]
+
+        return ret
 
     def getSkillBonus(self, skillName):
         skills = self.func("skills")
@@ -499,6 +507,45 @@ class PathfinderCharacter(Character):
 
         return bonus
 
+    def getSkillRanks(self):
+        return self.func("skillRanks") + (max(1, self.getStatMod("int")) * self.getLevel())
+
     def getAbilityList(self):
         abilities = self.func("abilities")
         return abilities
+
+    def getWeaponProficiencies(self):
+        return self.func("weaponProficiency")
+
+    def getWeaponTraitProficiencies(self):
+        return self.func("weaponTraitProficiency")
+
+    def getArmorTraitProficiencies(self):
+        return self.func("armorTraitProficiency")
+
+    def getLevel(self):
+        return self.func("lvl")
+
+    def getGearList(self):
+        return self.func("gear")
+
+    def getNaturalACBonus(self):
+        return self.func("naturalACBonus")
+    def getDodgeACBonus(self):
+        return self.func("dodgeACBonus")
+    def getDeflectACBonus(self):
+        return self.func("deflectACBonus")
+    def getMiscACBonus(self):
+        return self.func("miscACBonus")
+    def getArmorACBonus(self):
+        return self.func("armorACBonus")
+    def getShieldACBonus(self):
+        return self.func("shieldACBonus")
+    def getStatACBonus(self):
+        stats = self.func("ACStats")
+        totalStats = 0
+        for stat in stats:
+            totalStats += getModifier(self.func(stat))
+        return totalStats
+    def getSizeACBonus(self):
+        return getSizeModifier(self.func("size"))

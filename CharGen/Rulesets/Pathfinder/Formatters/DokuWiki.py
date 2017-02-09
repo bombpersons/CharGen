@@ -13,7 +13,34 @@ class DokuWikiFormatter:
         output += "**Init** " + numToBonusString(character.getInitBonus()) + "; **Perception** " + numToBonusString(character.getSkillBonus("Perception")) + "\n\n"
 
         output += "==== DEFENSES ====\n"
-        output += "**AC** " + str(character.getAC()) + ", touch " + str(character.getTouchAC()) + ", flat-footed " + str(character.getFlatAC()) + "\n\n"
+        output += "**AC** " + str(character.getAC()) + ", touch " + str(character.getTouchAC()) + ", flat-footed " + str(character.getFlatAC())
+
+        bonuses = {
+            "Natural" : character.getNaturalACBonus(),
+            "Dodge" : character.getDodgeACBonus(),
+            "Deflect" : character.getDeflectACBonus(),
+            "Armor" : character.getArmorACBonus(),
+            "Shield" : character.getShieldACBonus(),
+            "Dex" : character.getStatACBonus(),
+            "Misc" : character.getMiscACBonus(),
+            "Size" : character.getSizeACBonus()
+        }
+        pruned = {}
+        for name, bonus in bonuses.items():
+            if bonus != 0:
+                pruned[name] = bonus
+
+        if len(pruned) > 0:
+            output += " ("
+            i = 0
+            for name, bonus in pruned.items():
+                if i != 0:
+                    output += ", "
+                output += numToBonusString(bonus) + " " + name
+                i += 1
+            output += ")"
+        output += "\n\n"
+
         output += "**hp** " + str(character.getAverageHP()) + " (" + character.getHDString() + ")\n\n"
         output += "**Fort** " + numToBonusString(character.getFortSave()) + ", **Ref** " + numToBonusString(character.getFortSave()) + ", **Will** " + numToBonusString(character.getWillSave()) + "\n\n"
 
@@ -96,7 +123,17 @@ class DokuWikiFormatter:
             output += "\n\n"
 
         #output += "**Languages** " ???
-        #output += "**Gear**" ???
+
+        gear = character.getGearList()
+        if len(gear) > 0:
+            output += "**Gear** "
+            i = 0
+            for item in gear:
+                if i != 0:
+                    output += ", "
+                output += item
+                i += 1
+            output += "\n\n"
 
         abilities = character.getAbilityList()
         if len(abilities) > 0:

@@ -1,3 +1,5 @@
+import copy
+
 # Full character is simply a list of templates to apply upon each other.
 class Character:
     def __init__(self):
@@ -8,7 +10,7 @@ class Character:
         self.templates.append(template)
 
     def func(self, funcName):
-        total = self.defaults[funcName]
+        total = copy.deepcopy(self.defaults[funcName])
         for t in self.templates:
             f = getattr(t, funcName, None)
             if f:

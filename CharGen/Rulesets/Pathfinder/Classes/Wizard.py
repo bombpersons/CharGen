@@ -59,8 +59,36 @@ class Wizard:
             [0, 5, 4, 4, 4, 4, 3, 3, 3, 3]
         ]
 
+        self.spellsKnown = []
+        self.wizardSchool = ""
+
+    def randomize(self, character):
+        # Pick a random school specialization
+        wizardSchools = ["abjuration", "conjuration", "divination", "enchantment", "illusion", "necromancy", "transmutation"]
+        self.wizardSchool = wizardSchools[random.randint(0, len(wizardSchools) - 1)]
+
+        # Pick some random spells the wizard might know.
+        allWizardSpells = Spells.SpellList()
+        allWizardSpells.loadFromFile("CharGen/Rulesets/Pathfinder/Data/Spells/Wizard.raw")
+
+        # Pick our spells randomly
+        intMod = character.getStatMod("int")
+        spellsPerDay = self.getSpellsPerDay(character)
+        spellLvl = 0
+        for spellCount in spellsPerDay:
+            # Pick spells.
+            for i in range(1, spellCount):
+                self.spellsKnown += [allWizardSpells.getRandomSpell(spellLvl)]
+
+            # Pick one more from the specialized school for each lvl.
+            if spellCount > 0:
+                self.spellsKnown += [allWizardSpells.getRandomSpell(spellLvl, [self.wizardSchool])]
+            spellLvl += 1
+
+
+
     def getSpellsPerDay(self, character):
-        spellsPerDay = self.spellsPerDay[self.level]
+        spellsPerDay = self.spellsPerDay[self.level-1]
 
         # A character with a positive int mod might get extra spells slots.
         intMod = character.getStatMod("int")
@@ -84,7 +112,7 @@ class Wizard:
         return total + [(self.level, 6)]
 
     def name(self, character, total):
-        return total + ["Lvl " + str(self.level) + " Wizard"]
+        return total + ["Lvl " + str(self.level) + " Wizard (" + self.wizardSchool + ")"]
 
     def lvl(self, character, total):
         return total + self.level
@@ -113,48 +141,10 @@ class Wizard:
         return total + 2 * self.level
 
     def weaponProficiency(self, character, total):
-        total["Club"] = True
-        total["Dagger"] = True
-        total["Heavy Crossbow"] = True
-        total["Light Crossbow"] = True
-        total["Quarterstaff"] = True
-
-class WizardRandom(Wizard):
-    def __init__(self, level):
-        Wizard.__init__(self, level)
-
-        # Store our int modifier
-        self.storedIntMod = -100
-
-        # Pick a random school specialization
-        wizardSchools = ["abjuration", "conjuration", "divination", "enchantment", "illusion", "necromancy", "transmutation"]
-        self.wizardSchool = wizardSchools[random.randint(0, len(wizardSchools) - 1)]
-
-        # Pick some random spells the wizard might know.
-        self.allWizardSpells = Spells.SpellList()
-        self.allWizardSpells.loadFromFile("CharGen/Rulesets/Pathfinder/Data/Spells/Wizard.raw")
-
-    def name(self, character, total):
-        return Wizard.name(self, character, total) + ["(" + self.wizardSchool + ")"]
+        total += ["Club", "Dagger", "Heavy Crossbow", "Light Crossbow", "Quarterstaff"]
+        return total
 
     def spells(self, character, total):
-        # If our int modifier changed, we need to add / remove spells.
-        intMod = character.getStatMod("int")
-        if intMod != self.storedIntMod:
-            self.spellsKnown = []
-            spellsPerDay = self.getSpellsPerDay(character)
-            spellLvl = 0
-            for spellCount in spellsPerDay:
-                for i in range(0, spellCount):
-                    self.spellsKnown += [self.allWizardSpells.getRandomSpell(spellLvl)]
-
-                # Pick one more from the specialized school for each lvl.
-                if spellCount > 0:
-                    self.spellsKnown += [self.allWizardSpells.getRandomSpell(spellLvl, [self.wizardSchool])]
-                spellLvl += 1
-
-            self.storedIntMod = intMod
-
         # Return with our spell list.
         wizardSpells = SpellList(self.level, "int")
         for spell in self.spellsKnown:

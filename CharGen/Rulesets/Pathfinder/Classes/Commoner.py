@@ -1,4 +1,5 @@
 from CharGen.Rulesets.Pathfinder import *
+import CharGen.Rulesets.Pathfinder.Weapons as Weapons
 
 class Commoner:
     def __init__(self, lvl):
@@ -6,6 +7,14 @@ class Commoner:
 
         self.badSaveTable = [0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6]
         self.babTable = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
+
+        self.weaponProf = ""
+
+    def randomize(self, character):
+        # Commoners have proficiency with a single random simple weapon.
+        weaponList = Weapons.WeaponList()
+        weapon = weaponList.getRandomWeapon(["Simple"])
+        self.weaponProf = weapon.name
 
     def name(self, character, total):
         return total + ["Lvl " + str(self.level) + " Commoner"]
@@ -39,3 +48,6 @@ class Commoner:
 
     def skillRanks(self, character, total):
         return total + 2 * self.level
+
+    def weaponProficiency(self, character, total):
+        return total + [self.weaponProf]
