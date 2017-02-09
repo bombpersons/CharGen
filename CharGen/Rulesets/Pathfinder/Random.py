@@ -71,7 +71,7 @@ def getRandomAppropriateClass(character, lvl):
         Sorcerer.Sorcerer : [0, 0, 0, 0, 0, 14],
         Wizard.Wizard : [0, 0, 0, 14, 0, 0],
         Warrior.Warrior : [12, 5, 5, 0, 0, 0],
-        Adept.Adept : [0, 0, 0, 14, 0, 0, 0]
+        Adept.Adept : [0, 0, 0, 0, 14, 0]
     }
 
     commonerClasses = [
