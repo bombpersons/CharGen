@@ -20,9 +20,10 @@ def WriteSimple(character):
     s += character.getName() + "\n"
     s += "STR : " + str(character.getStat("str")) + " (" + str(character.getStatBonus("str")) + ") "
     s += "DEX : " + str(character.getStat("dex")) + " (" + str(character.getStatBonus("dex")) + ") "
-    s += "MIND : " + str(character.getStat("mind")) + " (" + str(character.getStatBonus("str")) + ") "
+    s += "MIND : " + str(character.getStat("mind")) + " (" + str(character.getStatBonus("str")) + ") \n"
     s += "HD " + convHitDiceToString(character.getHitDice(), character.getHitPointBonus()) + " (" + str(character.getHitPointAverage()) + ")\n"
 
+    s += "AC: " 
     s += "Spell DC: " + str(character.getSpellDC()) + "\n"
     s += "Skills: "
     s += "Physical " + convNumToBonusString(character.getSkill("physical"))

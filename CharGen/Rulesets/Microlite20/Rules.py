@@ -31,8 +31,14 @@ class Microlite20Character(Character.Character):
             # Armor proficiencies
             "armorProficiency" : [],
 
+            # AC bonus
+            "acBonus" : 0,
+
             # Abilities
-            "abilities" : []
+            "abilities" : [],
+
+            # attacks
+            "attacks" : []
         }
 
     # Get name
@@ -79,3 +85,22 @@ class Microlite20Character(Character.Character):
     # Get any abilities
     def getAbilities(self):
         return self.func("abilities")
+
+    # Get AC
+    def getAC(self):
+        return 10 + self.getStatMod("dex") + self.func("acBonus")
+
+    def getFlatAC(self):
+        ac = 10 + self.func("acBonus")
+        dexMod = self.getStatMod("dex")
+        if dexMod < 0
+            ac += dexMod
+        return ac
+
+    # Armor
+    def getArmorProficiency(self):
+        return self.func("armorProficiency")
+
+    # Gear
+    def getGear(self):
+        return self.func("gear")

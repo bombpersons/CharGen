@@ -1,5 +1,15 @@
 import math
 
+class Commoner:
+    def __init__(self, lvl):
+        self.lvl = lvl
+
+    def name(self, character, total):
+        return total + ["Lvl " + str(self.lvl) + " Commoner"]
+
+    def level(self, character, total):
+        return total + self.lvl
+
 class Fighter:
     def __init__(self, lvl):
         self.lvl = lvl
@@ -33,7 +43,7 @@ class Rogue:
         return total + 3
 
     def abilities(self, character, total):
-        return total + [("Sneak attack", "On sneak attack, add " + character.getSkill("subterfuge") + " to damage")]
+        return total + [("Sneak attack", "On sneak attack, add " + str(character.getSkill("subterfuge")) + " to damage")]
 
     def armorProficiency(self, character, total):
         return total + ["Light"]
