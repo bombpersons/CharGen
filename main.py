@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     character.apply(BaseTemplate.BaseTemplate("Bob"))
     character.apply(Random.getRandomRace())
-    Random.applyRandomAppropriateClass(character, 15)
+    Random.applyRandomAppropriateClass(character, random.randint(1, 5))
 
     formatter = DokuWikiFormatter()
     print(formatter.write(character))
