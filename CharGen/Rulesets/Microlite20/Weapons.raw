@@ -1,4 +1,48 @@
+Spiked Chain, 25, 2d4, 0, Two-Handed
+Falchion, 75, 1d6, 0, Two-Handed
+Heavy Flail, 15, 1d8, 0, Two-Handed
+Glaive, 8, 1d8, 0, Two-Handed
+Greataxe, 20, 1d10, 0, Two-Handed
+Greatclub, 5, 1d8, 0, Two-Handed
 Greatsword, 50, 2d6, 0, Two-Handed
+Guisarme, 9, 2d4, 0, Two-Handed
+Halberd, 10, 1d10, 0, Two-Handed
+Lance, 10, 1d8, 0, Two-Handed
+Longspear, 5, 1d8, 0, Two-Handed
+Quarterstaff, 0, 1d6, 0, Two-Handed
+Scythe, 18, 2d4, 0, Two-Handed
+Spear, 2, 1d8, 20, Two-Handed
+Unarmed Strike, 0, 1d3, 0, Light
+Throwing Axe, 8, 1d6, 10, Light
 Dagger, 2, 1d4, 10, Light
+Light Hammer, 1, 1d6, 20, Light
+Handaxe, 6, 1d4, 0, Light
+Light Mace, 5, 1d6, 0, Light
+Light Pick, 4, 1d4, 0, Light
+Sap, 1, 1d6, 0, Light
+Sickle, 6, 1d6, 0, Light
+Short Sword, 10, 1d6, 0, Light
+Hand Crossbow, 100, 1d4, 30, Ranged
+Heavy Crossbow, 50, 1d10, 120, Ranged
+Light Crossbow, 35, 1d8, 80, Ranged
+Dart, 1, 1d4, 20, Ranged
+Javelin, 1, 1d6, 30, Ranged
 Longbow, 75, 1d8, 100, Ranged
+Net, 20, 0d0, 10, Ranged
+Shortbow, 30, 1d6, 60, Ranged
+Sling, 0, 1d4, 50, Ranged
+Battleaxe, 10, 1d8, 0, One-Handed
 Club, 0, 1d6, 10, One-Handed
+Flail, 8, 1d8, 0, One-Handed
+Longsword, 15, 1d8, 0, One-Handed
+Heavy Mace, 12, 1d8, 0, One-Handed
+Morningstar, 8, 1d8, 0, One-Handed
+Heavy Pick, 8, 1d6, 0, One-Handed
+Rapier, 20, 1d6, 0, One-Handed
+Scimitar, 15, 1d6, 0, One-Handed
+Shortspear, 1, 1d6, 20, One-Handed
+Bastard Sword, 35, 1d10, 0, One-Handed
+Trident, 15, 1d8, 10, One-Handed
+Dwarven Waraxe, 30, 1d10, 0, One-Handed
+Warhammer, 12, 1d8, 0, One-Handed
+Whip, 1, 1d3, 0, One-Handed

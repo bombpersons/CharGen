@@ -1,4 +1,18 @@
 Padded, 2, 1, Light
+Leather, 10, 2, Light
+Studded Leather, 25, 3, Light
+Chain Shirt, 100, 4, Light
 Hide, 15, 3, Medium
+Scale Mail 50, 4, Medium
+Chainmail 150, 5, Medium
+Breastplate 200, 5, Medium
 Splint Mail, 200, 6, Heavy
+Banded Mail, 250, 6, Heavy
+Half-plate, 600, 7, Heavy
+Full Plate, 1500, 8, Heavy
 Buckler, 15, 1, Shield
+Light Wooden Shield, 3, 1, Shield
+Light Steel Shield, 9, 1, Shield
+Heavy Wooden Shield, 7, 2, Shield
+Heavy Steel Shield, 20, 2, Shield
+Tower Shield, 30, 4, Shield
