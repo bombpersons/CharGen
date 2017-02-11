@@ -11,7 +11,7 @@ class Aristocrat:
         self.goodSaveTable = [2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12]
 
     def name(self, character, total):
-        return total + ["Lvl " + str(self.level) + " Expert"]
+        return total + ["Lvl " + str(self.level) + " Aristocrat"]
 
     def hd(self, character, total):
         return total + [(self.level, 8)]

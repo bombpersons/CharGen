@@ -17,6 +17,9 @@ class Fighter:
     def name(self, character, total):
         return total + ["Lvl " + str(self.lvl) + " Fighter"]
 
+    def extraHP(self, character, total):
+        return character.getStat("str")
+
     def level(self, character, total):
         return self.lvl
 
@@ -36,6 +39,9 @@ class Rogue:
     def name(self, character, total):
         return total + ["Lvl " + str(self.lvl) + " Rogue"]
 
+    def extraHP(self, character, total):
+        return character.getStat("str")
+
     def level(self, character, total):
         return self.lvl
 
@@ -52,6 +58,9 @@ class Magi:
     def __init__(self, lvl):
         self.lvl = lvl
 
+    def extraHP(self, character, total):
+        return character.getStat("str")
+
     def name(self, character, total):
         return total + ["Lvl " + str(self.lvl) + " Magi"]
 
@@ -67,6 +76,9 @@ class Cleric:
 
     def name(self, character, total):
         return total + ["Lvl " + str(self.lvl) + " Cleric"]
+
+    def extraHP(self, character, total):
+        return character.getStat("str")
 
     def level(self, character, total):
         return self.lvl

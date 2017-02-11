@@ -79,8 +79,8 @@ def getRandomAppropriateClass(character, lvl):
     }
 
     commonerClasses = [
-        Commoner.Commoner,
-        Expert.Expert,
+        #Commoner.Commoner,
+        #Expert.Expert,
         Aristocrat.Aristocrat
     ]
 
