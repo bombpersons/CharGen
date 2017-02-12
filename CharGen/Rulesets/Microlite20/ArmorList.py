@@ -11,7 +11,7 @@ class ArmorTemplate:
     def __init__(self, armor):
         self.armor = armor
 
-    def armorAC(self, character, total):
+    def acBonus(self, character, total):
         return total + self.armor.bonus
 
     def gear(self, character, total):

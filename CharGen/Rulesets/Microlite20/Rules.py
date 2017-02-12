@@ -16,6 +16,9 @@ class Microlite20Character(Character.Character):
             # Level
             "level" : 0,
 
+            # Extra hp
+            "extraHP" : 0,
+
             # Skills
             "physical" : 0,
             "subterfuge" : 0,
@@ -38,7 +41,10 @@ class Microlite20Character(Character.Character):
             "abilities" : [],
 
             # attacks
-            "attacks" : []
+            "attacks" : [],
+
+            # gear
+            "gear" : []
         }
 
     # Get name
@@ -57,7 +63,7 @@ class Microlite20Character(Character.Character):
         return (self.getLevel(), 6)
 
     def getHitPointBonus(self):
-        return self.func("str")
+        return self.func("extraHP")
 
     def getHitPointAverage(self):
         return self.getLevel() * 3 + self.getHitPointBonus()
@@ -76,11 +82,11 @@ class Microlite20Character(Character.Character):
 
     # Attack bonuses
     def getMeleeAttackBonus(self):
-        return self.getStat("str") + self.getLevel() + self.func("attackBonus")
+        return self.getStatBonus("str") + self.getLevel() + self.func("attackBonus")
     def getRangedAttackBonus(self):
-        return self.getStat("dex") + self.getLevel() + self.func("attackBonus")
+        return self.getStatBonus("dex") + self.getLevel() + self.func("attackBonus")
     def getMagicAttackBonus(self):
-        return self.getStat("mind") + self.getLevel() + self.func("attackBonus")
+        return self.getStatBonus("mind") + self.getLevel() + self.func("attackBonus")
 
     # Get any abilities
     def getAbilities(self):
@@ -88,18 +94,22 @@ class Microlite20Character(Character.Character):
 
     # Get AC
     def getAC(self):
-        return 10 + self.getStatMod("dex") + self.func("acBonus")
+        return 10 + self.getStatBonus("dex") + self.func("acBonus")
 
     def getFlatAC(self):
         ac = 10 + self.func("acBonus")
-        dexMod = self.getStatMod("dex")
-        if dexMod < 0
+        dexMod = self.getStatBonus("dex")
+        if dexMod < 0:
             ac += dexMod
         return ac
 
     # Armor
     def getArmorProficiency(self):
         return self.func("armorProficiency")
+
+    # Attacks
+    def getAttacks(self):
+        return self.func("attacks")
 
     # Gear
     def getGear(self):
