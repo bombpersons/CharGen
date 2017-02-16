@@ -50,6 +50,7 @@ nouns = [
     noun("Dragon", "Dragons"),
     noun("Romance", "Romances"),
     noun("Dog", "Dogs"),
+    noun("Death", "Deaths"),
     noun("Pack", "Packs"),
     noun("Finger", "Fingers"),
     noun("Jelly", "Jellies"),
@@ -75,8 +76,14 @@ nouns = [
 class randomNoun():
     def __init__(self, force=None):
         self.force = force
+        self.hyphenPercentage = 7
 
     def __str__(self):
+        if random.randint(1,100) <= self.hyphenPercentage:
+            noun1 = randomNoun(force="singular")
+            noun2 = randomNoun()
+            return str(noun1) + "-" + str(noun2)
+
         choice = random.choice(nouns)
 
         if self.force=="singular":
